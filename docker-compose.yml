@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  # REST API
+  api:
+    container_name: typscript_nodeserver
+    build: . 
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "2000:2000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://admin:admin123@db:5432/Excel-Merge"
+    networks:
+      - default  
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      -  DATABASE_HOST=127.0.0.1
+      -  POSTGRES_USER=admin
+      -  POSTGRES_PASSWORD=admin123
+      -  POSTGRES_DB=Excel-Merge
+    networks:
+      - default  
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+       PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+       PGADMIN_DEFAULT_PASSWORD: 'admin'
+    ports:
+      - "80:80"
+    depends_on:
+      -  db
+volumes:
+  db-data:
