@@ -1,7 +1,7 @@
 
 import {Router} from 'express';
 const pagesRouter = Router();
-import { getReports,postReport } from '../../ApiServices/Pages/controller';
+import { getReports,postReport } from './controller';
 
 
 pagesRouter.get('/',getReports);
